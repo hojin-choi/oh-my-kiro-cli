@@ -72,6 +72,11 @@ install_hooks() {
   echo "  Hooks to be installed:"
   for f in "${files[@]}"; do echo "    - $(basename "$f")"; done
   echo ""
+  # Skip interactive prompt in non-interactive environments (CI, postinstall)
+  if [[ ! -t 0 ]] || [[ "${CI:-}" == "true" ]] || [[ "${npm_lifecycle_event:-}" == "postinstall" ]]; then
+    echo "  Skipped (non-interactive environment — use --with-hooks to install)."
+    return
+  fi
   read -r -p "  Install hooks? [y/N] " confirm
   [[ "$confirm" =~ ^[Yy]$ ]] || { echo "  Skipped."; return; }
 

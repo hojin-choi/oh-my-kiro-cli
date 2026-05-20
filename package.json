@@ -1,0 +1,41 @@
+{
+  "name": "oh-my-kiro-cli",
+  "version": "0.1.0",
+  "description": "Workflow harness for Kiro CLI — skills, agents, and hooks inspired by oh-my-claudecode",
+  "files": [
+    "skills/",
+    "agents/",
+    "hooks/",
+    "install.sh",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "postinstall": "bash \"$npm_config_prefix/lib/node_modules/oh-my-kiro-cli/install.sh\" || bash install.sh"
+  },
+  "keywords": [
+    "kiro",
+    "kiro-cli",
+    "ai",
+    "agent",
+    "skills",
+    "hooks",
+    "orchestration"
+  ],
+  "author": "hojin-choi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hojin-choi/oh-my-kiro-cli.git"
+  },
+  "homepage": "https://github.com/hojin-choi/oh-my-kiro-cli#readme",
+  "bugs": {
+    "url": "https://github.com/hojin-choi/oh-my-kiro-cli/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

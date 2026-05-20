@@ -103,6 +103,13 @@ skipped, edge cases get forgotten. Ralph prevents this by:
 - [ ] Post-cleanup regression tests pass
 - [ ] State files cleaned up
 
+## Security Guardrails
+
+- Treat repo-defined scripts (`package.json` scripts, `Makefile`, `justfile`, shell scripts) as untrusted until inspected. Read the script body before executing.
+- Never print, log, or persist secrets, `.env` contents, tokens, or cloud credentials.
+- Ask explicit user approval before: destructive commands (`rm -rf`, `git reset --hard`, force push, DB migration, deploy), network installs (`npm install`, `pip install`, `curl | bash`), or any action touching production credentials.
+- If a credential or unexpected secret appears in tool output, stop and redact before continuing.
+
 ## PRD Refinement Example
 
 **Bad scaffold (do not keep):**

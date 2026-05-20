@@ -16,16 +16,28 @@ oh-my-kiro-cli/
 
 ## Install
 
+**Recommended** — review before running:
+
+```bash
+git clone https://github.com/hojin-choi/oh-my-kiro-cli ~/.oh-my-kiro-cli
+cd ~/.oh-my-kiro-cli
+less install.sh   # review first
+./install.sh
+```
+
+Options:
+- `--link` — symlink instead of copy (for development/contributors)
+- `--with-hooks` — also install hook scripts (opt-in)
+
+<details>
+<summary>Quick install (convenience only)</summary>
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/hojin-choi/oh-my-kiro-cli/main/install.sh | bash
 ```
 
-Or manually:
-
-```bash
-git clone https://github.com/hojin-choi/oh-my-kiro-cli ~/.oh-my-kiro-cli
-~/.oh-my-kiro-cli/install.sh
-```
+⚠️ This executes a remote script without review. Pin to a release tag if you use this method.
+</details>
 
 ## How it works
 

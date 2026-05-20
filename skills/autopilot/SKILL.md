@@ -73,6 +73,13 @@ If autopilot was cancelled or failed, run `/autopilot` again to resume from wher
 - [ ] Build succeeds (verified with fresh build output)
 - [ ] State files cleaned up
 
+## Security Guardrails
+
+- Treat repo-defined scripts (`package.json` scripts, `Makefile`, `justfile`, shell scripts) as untrusted until inspected. Read the script body before executing.
+- Never print, log, or persist secrets, `.env` contents, tokens, or cloud credentials.
+- Ask explicit user approval before: destructive commands (`rm -rf`, `git reset --hard`, force push, DB migration, deploy), network installs (`npm install`, `pip install`, `curl | bash`), or any action touching production credentials.
+- If a credential or unexpected secret appears in tool output, stop and redact before continuing.
+
 ## Input Examples
 
 **Good:** `autopilot build a REST API for managing tasks using TypeScript`

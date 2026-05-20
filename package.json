@@ -1,6 +1,6 @@
 {
   "name": "oh-my-kiro-cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Workflow harness for Kiro CLI — skills, agents, and hooks inspired by oh-my-claudecode",
   "bin": {
     "oh-my-kiro-cli": "./bin/cli.js"

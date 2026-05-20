@@ -4,18 +4,48 @@ on:
   push:
     tags: ['v*']
 
+# Least-privilege: contents read-only, id-token required for OIDC Trusted Publishing.
 permissions:
   contents: read
-  id-token: write  # required for OIDC trusted publishing + provenance
+  id-token: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # Gate publishes through a protected environment.
+    # Configure required reviewers under Settings -> Environments -> release.
+    environment:
+      name: release
+      url: https://www.npmjs.com/package/oh-my-kiro-cli
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
           package-manager-cache: false
-      - run: npm publish --access public
+
+      - name: Verify tag matches package.json version
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG=$(node -p "require('./package.json').version")
+          if [ "$TAG" != "$PKG" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $PKG"
+            exit 1
+          fi
+          echo "version match: $PKG"
+
+      - name: Verify README pins the released version
+        run: |
+          PKG=$(node -p "require('./package.json').version")
+          missing=0
+          grep -q "oh-my-kiro-cli@${PKG}" README.md || { echo "::error::README missing @${PKG} pin";       missing=1; }
+          grep -q "git checkout v${PKG}"   README.md || { echo "::error::README missing v${PKG} checkout"; missing=1; }
+          [ "$missing" -eq 0 ] && echo "README pins are consistent."
+          exit "$missing"
+
+      - name: Publish to npm (provenance via Trusted Publishing)
+        run: npm publish --access public

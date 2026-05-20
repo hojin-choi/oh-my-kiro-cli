@@ -16,44 +16,46 @@ oh-my-kiro-cli/
 
 ## Install
 
+Requirements: **Node.js 22+** (LTS or current). Earlier Node versions are no longer security-supported upstream.
+
 | Method | Command | Reviewability |
 |---|---|---|
 | npm (recommended) | `npm i -g oh-my-kiro-cli@<version>` then `oh-my-kiro-cli setup` | medium |
 | git clone | `git clone ... && less install.sh && ./install.sh` | high |
-| curl \| bash | see below | low |
 
 **npm** (recommended):
 
 ```bash
-npm i -g oh-my-kiro-cli@0.1.2
+npm i -g oh-my-kiro-cli@0.1.4
 oh-my-kiro-cli setup
 ```
 
-Always pin to a specific version (`@0.1.2`). Running `oh-my-kiro-cli setup` is a separate explicit step — nothing is written to `~/.kiro` until you run it.
+Always pin to a specific version (`@0.1.4`). Running `oh-my-kiro-cli setup` is a separate explicit step — nothing is written to `~/.kiro` until you run it.
 
 Setup options:
 - `--with-hooks` — also install hook scripts (opt-in)
+- `--force` — overwrite user-owned items in `~/.kiro` after creating a `.bak.<timestamp>` backup
 - `--link` — symlink instead of copy (git-clone installs only)
+
+By default, same-name skills or agents that lack the `.oh-my-kiro-managed` marker are treated as user-owned and skipped. Pass `--force` once when upgrading from a pre-0.1.4 install to take over the marker.
 
 **git clone** (highest reviewability):
 
 ```bash
 git clone https://github.com/hojin-choi/oh-my-kiro-cli ~/.oh-my-kiro-cli
 cd ~/.oh-my-kiro-cli
-git checkout v0.1.2
+git checkout v0.1.4
 less install.sh   # review first
 ./install.sh
 ```
 
-<details>
-<summary>curl | bash (convenience only — not recommended)</summary>
+Verifying the npm artifact (optional but recommended for supply-chain auditing):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/hojin-choi/oh-my-kiro-cli/v0.1.2/install.sh | bash
+npm view oh-my-kiro-cli@0.1.4 dist.attestations
+# Expect: provenance.predicateType = https://slsa.dev/provenance/v1
+# Publisher: GitHub Actions (Trusted Publisher), not a personal npm token.
 ```
-
-⚠️ This executes a remote script without review. Always pin to a release tag.
-</details>
 
 ## How it works
 

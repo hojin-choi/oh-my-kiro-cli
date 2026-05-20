@@ -1,17 +1,20 @@
 {
   "name": "oh-my-kiro-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Workflow harness for Kiro CLI — skills, agents, and hooks inspired by oh-my-claudecode",
+  "bin": {
+    "oh-my-kiro-cli": "./bin/cli.js"
+  },
   "files": [
+    "bin/",
     "skills/",
     "agents/",
-    "hooks/",
     "install.sh",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "postinstall": "bash \"$npm_config_prefix/lib/node_modules/oh-my-kiro-cli/install.sh\" || bash install.sh"
+    "postinstall": "node -e \"console.log('\\n  oh-my-kiro-cli installed.\\n  Run: oh-my-kiro-cli setup\\n')\""
   },
   "keywords": [
     "kiro",
@@ -36,6 +39,6 @@
     "access": "public"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=18.17.0"
   }
 }
